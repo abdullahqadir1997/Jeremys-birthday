@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy 45th Birthday Jeremy!</title>
+
+<!-- External resources consumed from JS (rewritten to window.__resources by bundler) -->
+<meta name="ext-resource-dependency" content="assets/jeremy1.jpg" data-resource-id="jeremy1">
+<meta name="ext-resource-dependency" content="assets/jeremy2.jpg" data-resource-id="jeremy2">
+<meta name="ext-resource-dependency" content="assets/jeremy3.jpg" data-resource-id="jeremy3">
+<meta name="ext-resource-dependency" content="assets/jeremy4.jpg" data-resource-id="jeremy4">
+<meta name="ext-resource-dependency" content="assets/jeremy5.jpg" data-resource-id="jeremy5">
+<meta name="ext-resource-dependency" content="assets/jeremy6.jpg" data-resource-id="jeremy6">
+<meta name="ext-resource-dependency" content="assets/jeremy7.jpg" data-resource-id="jeremy7">
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#2A0D4A"/>
+    <g transform="translate(100 100)">
+      <circle r="54" fill="#FF2D87"/>
+      <text x="0" y="-4" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="44" fill="#FFE23B">45</text>
+      <text x="0" y="28" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="14" fill="#FFF5E1" letter-spacing="2">JEREMY</text>
+    </g>
+  </svg>
+</template>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0; padding: 0; background: #0a0a0a; color: #fff;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+  }
+  #root { position: fixed; inset: 0; }
+
+  .start-overlay {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, #2A0D4A 0%, #0a0a0a 80%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: opacity 0.5s;
+  }
+  .start-overlay.hidden { opacity: 0; pointer-events: none; }
+  .start-title {
+    font-family: 'Bungee', sans-serif;
+    font-size: clamp(48px, 9vw, 180px);
+    color: #FFE23B;
+    -webkit-text-stroke: 4px #0a0a0a;
+    text-shadow: 10px 10px 0 #FF2D87;
+    text-align: center;
+    line-height: 0.95;
+    margin-bottom: 40px;
+    animation: wobble 2s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-2deg) scale(1); }
+    50% { transform: rotate(2deg) scale(1.03); }
+  }
+  .start-sub {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(18px, 2vw, 28px);
+    color: #FFF5E1;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 20px;
+    margin-bottom: 50px;
+    line-height: 1.5;
+  }
+  .play-btn {
+    font-family: 'Bungee', sans-serif;
+    font-size: clamp(24px, 3vw, 40px);
+    background: #FF2D87;
+    color: #FFF5E1;
+    padding: 20px 60px;
+    border: 6px solid #0a0a0a;
+    box-shadow: 10px 10px 0 #29E5FF;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .play-btn:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 14px 14px 0 #29E5FF;
+  }
+  .play-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 6px 6px 0 #29E5FF;
+  }
+  .tip {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,245,225,0.5);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<div class="start-overlay" id="startOverlay">
+  <div class="start-title">HAPPY 45th<br/>JEREMY!</div>
+  <div class="start-sub">A birthday tribute with music &amp; questionable amounts of confetti.</div>
+  <button class="play-btn" id="playBtn">▶ PRESS PLAY</button>
+  <div class="tip">space = pause · ← → = seek · 0 = restart</div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="music.js"></script>
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="scenes.jsx"></script>
+
+<!-- Tweaks defaults (read by scenes.jsx + music.js) -->
+<script>
+  window.JEREMY_TWEAKS = /*EDITMODE-BEGIN*/{
+    "name": "JEREMY",
+    "age": 45,
+    "musicVolume": 0.6,
+    "confettiDensity": 1,
+    "showWish": true
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- Tweaks panel -->
+<style>
+  #tweaks-panel {
+    position: fixed; bottom: 20px; right: 20px; z-index: 2000;
+    width: 280px;
+    background: #141018;
+    border: 3px solid #FFE23B;
+    box-shadow: 8px 8px 0 #FF2D87;
+    padding: 18px 18px 16px;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    color: #FFF5E1;
+    display: none;
+  }
+  #tweaks-panel.open { display: block; }
+  #tweaks-panel h3 {
+    margin: 0 0 14px;
+    font-family: 'Bungee', sans-serif;
+    font-size: 22px;
+    color: #FFE23B;
+    letter-spacing: 0.05em;
+  }
+  #tweaks-panel label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,245,225,0.65);
+    margin: 10px 0 4px;
+  }
+  #tweaks-panel input[type="text"],
+  #tweaks-panel input[type="number"] {
+    width: 100%;
+    background: #0a0a0a;
+    border: 2px solid #29E5FF;
+    color: #FFF5E1;
+    padding: 6px 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  #tweaks-panel input[type="range"] {
+    width: 100%;
+    accent-color: #FF2D87;
+  }
+  #tweaks-panel .row-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #29E5FF;
+    float: right;
+  }
+  #tweaks-panel .check-row {
+    display: flex; align-items: center; gap: 8px;
+    margin: 12px 0 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+  }
+  #tweaks-panel input[type="checkbox"] { accent-color: #FFE23B; }
+</style>
+
+<div id="tweaks-panel">
+  <h3>🎛 TWEAKS</h3>
+  <label>Name <span class="row-value" id="tw-name-val"></span></label>
+  <input type="text" id="tw-name" maxlength="14"/>
+  <label>Age <span class="row-value" id="tw-age-val"></span></label>
+  <input type="number" id="tw-age" min="1" max="120"/>
+  <label>Music volume <span class="row-value" id="tw-vol-val"></span></label>
+  <input type="range" id="tw-vol" min="0" max="1" step="0.05"/>
+  <label>Confetti density <span class="row-value" id="tw-conf-val"></span></label>
+  <input type="range" id="tw-conf" min="0" max="2.5" step="0.1"/>
+  <div class="check-row">
+    <input type="checkbox" id="tw-wish"/>
+    <label for="tw-wish" style="margin:0;font-size:13px;text-transform:none;letter-spacing:0;color:#FFF5E1;">Show "MAKE A WISH"</label>
+  </div>
+</div>
+
+<script type="text/babel">
+  const DURATION = 47;
+
+  function App() {
+    return (
+      <Stage width={1920} height={1080} duration={DURATION} background="#0a0a0a" persistKey="jeremy45">
+        <BirthdayVideo/>
+      </Stage>
+    );
+  }
+
+  // Start button
+  document.getElementById('playBtn').addEventListener('click', () => {
+    const overlay = document.getElementById('startOverlay');
+    overlay.classList.add('hidden');
+    setTimeout(() => overlay.style.display = 'none', 500);
+
+    // Start music
+    try {
+      window.BirthdayMusic.start();
+    } catch (e) { console.warn('Music failed:', e); }
+
+    // Reset playback to start
+    try { localStorage.setItem('jeremy45:t', '0'); } catch {}
+
+    // Mount React app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+    window.__appRoot = root;
+  });
+
+  // ──────────────────────────────────────────────────────────────────
+  // Tweaks (edit-mode protocol)
+  (function setupTweaks() {
+    const panel = document.getElementById('tweaks-panel');
+    const T = window.JEREMY_TWEAKS;
+
+    const els = {
+      name: document.getElementById('tw-name'),
+      age:  document.getElementById('tw-age'),
+      vol:  document.getElementById('tw-vol'),
+      conf: document.getElementById('tw-conf'),
+      wish: document.getElementById('tw-wish'),
+    };
+    const labels = {
+      vol:  document.getElementById('tw-vol-val'),
+      conf: document.getElementById('tw-conf-val'),
+    };
+
+    function syncFromTweaks() {
+      els.name.value = T.name;
+      els.age.value  = T.age;
+      els.vol.value  = T.musicVolume;
+      els.conf.value = T.confettiDensity;
+      els.wish.checked = !!T.showWish;
+      labels.vol.textContent  = Math.round(T.musicVolume * 100) + '%';
+      labels.conf.textContent = T.confettiDensity.toFixed(1) + 'x';
+    }
+    syncFromTweaks();
+
+    function pushEdits(edits) {
+      try {
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+      } catch (e) {}
+    }
+
+    function remount() {
+      if (window.__appRoot) {
+        window.__appRoot.render(<App/>);
+      }
+    }
+
+    els.name.addEventListener('input', () => {
+      T.name = els.name.value || 'JEREMY';
+      pushEdits({ name: T.name });
+      remount();
+    });
+    els.age.addEventListener('input', () => {
+      const v = parseInt(els.age.value, 10);
+      if (!isNaN(v)) { T.age = v; pushEdits({ age: v }); remount(); }
+    });
+    els.vol.addEventListener('input', () => {
+      const v = parseFloat(els.vol.value);
+      T.musicVolume = v;
+      labels.vol.textContent = Math.round(v * 100) + '%';
+      if (window.BirthdayMusic && window.BirthdayMusic.setVolume) {
+        window.BirthdayMusic.setVolume(v);
+      }
+      pushEdits({ musicVolume: v });
+    });
+    els.conf.addEventListener('input', () => {
+      const v = parseFloat(els.conf.value);
+      T.confettiDensity = v;
+      labels.conf.textContent = v.toFixed(1) + 'x';
+      pushEdits({ confettiDensity: v });
+      remount();
+    });
+    els.wish.addEventListener('change', () => {
+      T.showWish = els.wish.checked;
+      pushEdits({ showWish: T.showWish });
+      remount();
+    });
+
+    // Edit-mode protocol — listener FIRST, then announce
+    window.addEventListener('message', (ev) => {
+      const d = ev && ev.data;
+      if (!d || !d.type) return;
+      if (d.type === '__activate_edit_mode')   panel.classList.add('open');
+      if (d.type === '__deactivate_edit_mode') panel.classList.remove('open');
+    });
+    try {
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    } catch (e) {}
+  })();
+</script>
+</body>
+</html>
